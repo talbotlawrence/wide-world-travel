@@ -1,19 +1,21 @@
 "use strict";
-app.factory("GuideStorage", ($q, $http) => {                                                                 
-  let getItemList = () => {
+app.factory("GuideStorage", function($q, $http) {          
+	let getItemList = () => {
+		return $q((resolve, reject) => {                                                               
+			$http.get('data/guides.json')                                              
+				.then((guideObject) => {
+				console.log("guideObject", guideObject);                                                                
+				// 	let guidesCollection = guideObject.data.guides; 
+				// 	console.log("guidesCollection", guidesCollection);
+				// 	resolve(guidesCollection);                                                                 
+					resolve(guideObject);                                                                
+				})                                                                                     
+			.catch((error) => {                                    
+				reject(error);                                                                     
+			});                                                                                     
+		});                                                                                         
+	}; 
 
-    return $q((resolve, reject) => {                                                                                              
-      $http.get('../../data/guides.json')                                              
-      .then((guideObject) => {                                                                                                     
-        let guidesCollection = guideObject.data.guides;                                                                                     
-      resolve(guidesCollection);                                                                                                             
-      })                                                                                                                          
-      .catch((error) => {                                                                                                         
-        reject(error);                                                                                                            
-      });                                                                                                                         
-    });                                                                                                                           
-  }; 
-
-  return {getItemList};
+	return {getItemList};
 
 });   
